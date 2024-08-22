@@ -13,7 +13,7 @@ expense limits.
   etc.).
 - **Expense Limit Control**: Storing and verifying monthly expense limits in USD.
 - **Currency Exchange Rates**: Integration with an external API (TwelveData API) to fetch currency exchange rates (
-  KZT/USD, RUB/USD) and store them in the database.
+  EUR/USD, RUB/USD) and store them in the database.
 - **Flexible Limit Configuration**: Ability to set new expense limits considering the current date.
 
 ---
