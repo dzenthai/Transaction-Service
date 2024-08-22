@@ -1,0 +1,140 @@
+{
+	"info": {
+		"_postman_id": "ca620cf4-5cef-4df5-917a-b34d8edcc280",
+		"name": "Transaction-Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "35145925"
+	},
+	"item": [
+		{
+			"name": "Save transaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountFrom\": 2356323127,\r\n    \"accountTo\": 1234567891,\r\n    \"sum\": \"0.20\",\r\n    \"expenseCategory\": \"service\",\r\n    \"currency\": \"BTC\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/transactions/save",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"transactions",
+						"save"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Exchange rate",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "currencyPair",
+							"value": "RUB/USD",
+							"type": "text"
+						},
+						{
+							"key": "date",
+							"value": "2024-07-11",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/exchange-rate/get?currencyPair=BTC/USD",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"exchange-rate",
+						"get"
+					],
+					"query": [
+						{
+							"key": "currencyPair",
+							"value": "BTC/USD"
+						},
+						{
+							"key": "date",
+							"value": "",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Set limit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"limit\": \"700\",\r\n    \"expenseCategory\": \"service\",\r\n    \"datetime\": \"2024-08-13T19:35:18\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/limits/set",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"limits",
+						"set"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all limits",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/limits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"limits"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
