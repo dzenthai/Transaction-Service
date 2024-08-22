@@ -13,24 +13,24 @@ import java.math.BigDecimal;
 @Builder
 public record TransactionDTO(
 
-        @Schema(description = "Отправитель", example = "1234567891")
+        @Schema(description = "Sender", example = "1234567891")
         @NotNull(message = "The account from cannot be null")
         Long accountFrom,
 
         @NotNull(message = "The account to cannot be null")
-        @Schema(description = "Получатель", example = "9876543211")
+        @Schema(description = "Recipient", example = "9876543211")
         Long accountTo,
 
         @NotNull(message = "The sum cannot be null")
         @DecimalMin(value = "0.01", message = "The sum must be greater than 0")
-        @Schema(description = "Общая сумма транзакции", example = "500")
+        @Schema(description = "Transaction amount", example = "500")
         BigDecimal sum,
 
         @NotNull(message = "The currency cannot be null")
-        @Schema(description = "Валюта", example = "USD")
+        @Schema(description = "Currency", example = "USD")
         Currency currency,
 
         @NotNull(message = "The expense category cannot be null")
-        @Schema(description = "Категория расходов", example = "service")
+        @Schema(description = "Expense category", example = "service")
         ExpenseCategory expenseCategory
 ) {}

@@ -36,7 +36,7 @@ public class ExchangeRateService {
         Optional<ExchangeRate> optionalRate = exchangeRateRepo.findByCurrencyPairAndDate(currencyPair, date);
 
         if (optionalRate.isPresent()) {
-            log.info("ExchangeRateService | Поиск курса в базе данных.");
+            log.info("ExchangeRateService | Searching for the exchange rate in the database.");
             return optionalRate.get().getRate();
         }
 
@@ -44,7 +44,7 @@ public class ExchangeRateService {
 
         if (rate != null) {
 
-            log.info("ExchangeRateService | Получение курса через обращение к API.");
+            log.info("ExchangeRateService | Retrieving the exchange rate through an API request.");
 
             ExchangeRate exchangeRate = ExchangeRate.builder()
                     .currencyPair(currencyPair)
@@ -58,14 +58,14 @@ public class ExchangeRateService {
         Optional<ExchangeRate> lastAvailableRate = exchangeRateRepo.findTopByCurrencyPairOrderByDateDesc(currencyPair);
 
         if (lastAvailableRate.isPresent()) {
-            log.info("ExchangeRateService | Поиск последнего доступного курса.");
+            log.info("ExchangeRateService | Searching for the latest available rate.");
             if (lastAvailableRate.get().getDate().isBefore(date)) {
                 return lastAvailableRate.get().getRate();
             }
         }
 
         return rate != null ? rate : lastAvailableRate.map(ExchangeRate::getRate)
-                .orElseThrow(() -> new ExchangeException("ExchangeRateService | Нет доступного обменного курса."));
+                .orElseThrow(() -> new ExchangeException("ExchangeRateService | No available exchange rate."));
     }
 
     @Transactional
@@ -74,7 +74,7 @@ public class ExchangeRateService {
             return transactionDTO.sum();
         }
         BigDecimal exchangeRate = getExchangeRate(transactionDTO.currency().name() + "/USD", LocalDate.now());
-        log.info("ExchangeRateService | Конвертация {} в USD", transactionDTO.currency().name());
+        log.info("ExchangeRateService | Converting {} to USD", transactionDTO.currency().name());
         return transactionDTO.sum().multiply(exchangeRate);
     }
 
@@ -90,12 +90,12 @@ public class ExchangeRateService {
                     .join();
 
             String responseBody = response.getResponseBody();
-            log.info("ExchangeRateService | Полный ответ от Twelvedata API: {}", responseBody);
+            log.info("ExchangeRateService | Full response from Twelvedata API: {}", responseBody);
 
             BigDecimal closePrice = parseClosePrice(responseBody);
 
             if (closePrice == null) {
-                log.info("ExchangeRateService | Данные закрытия на {} недоступны, пытаемся получить предыдущий закрытый курс.", date);
+                log.info("ExchangeRateService | Closing data for {} is unavailable, attempting to retrieve the previous closing rate.", date);
                 url = String.format(
                         "https://api.twelvedata.com/time_series?symbol=%s&interval=1day&start_date=%s&apikey=%s&format=JSON&previous_close=true",
                         currencyPair, date, apiKey);
@@ -106,15 +106,15 @@ public class ExchangeRateService {
                         .join();
 
                 responseBody = response.getResponseBody();
-                log.info("ExchangeRateService | Полный ответ от Twelvedata API с previous_close=true: {}", responseBody);
+                log.info("ExchangeRateService | Full response from Twelvedata API with previous_close=true: {}", responseBody);
 
                 closePrice = parseClosePrice(responseBody);
             }
 
             return closePrice;
         } catch (Exception e) {
-            log.error("ExchangeRateService | Ошибка при получении курса валют: {}", e.getMessage());
-            throw new ExchangeException("Не удалось получить курс валют");
+            log.error("ExchangeRateService | Error retrieving exchange rate: {}", e.getMessage());
+            throw new ExchangeException("Failed to retrieve the exchange rate.");
         }
     }
 
@@ -130,11 +130,11 @@ public class ExchangeRateService {
                 String closePriceStr = firstValueNode.path("close").asText();
                 return closePriceStr != null && !closePriceStr.isEmpty() ? new BigDecimal(closePriceStr) : null;
             } else {
-                log.error("ExchangeRateService | Массив значений пуст или не найден в ответе API.");
+                log.error("ExchangeRateService | The array of values is empty or not found in the API response.");
                 return null;
             }
         } catch (Exception e) {
-            log.error("ExchangeRateService | Ошибка при парсинге ответа Twelvedata API: {}", e.getMessage());
+            log.error("ExchangeRateService | Error parsing Twelvedata API response: {}", e.getMessage());
             return null;
         }
     }

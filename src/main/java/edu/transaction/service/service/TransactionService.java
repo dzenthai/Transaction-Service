@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Slf4j
@@ -23,11 +22,9 @@ public class TransactionService {
 
     private final LimitCheckService limitCheckService;
 
-    private final TransactionMapper transactionMapper;
-
     @Transactional
     public void saveTransaction(TransactionDTO transactionDTO) {
-        log.info("TransactionService | Сохранение транзакции");
+        log.info("TransactionService | Saving transaction");
 
         Transaction transaction = Transaction.builder()
                 .accountFrom(transactionDTO.accountFrom())
@@ -41,7 +38,7 @@ public class TransactionService {
         limitCheckService.checkLimitExceeded(transaction);
 
         if (transaction.isLimitExceeded()) {
-            throw new TransactionException("Превышен лимит транзакций");
+            throw new TransactionException("Transaction limit exceeded");
         }
 
         transactionRepo.save(transaction);

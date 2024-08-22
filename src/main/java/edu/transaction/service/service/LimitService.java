@@ -4,6 +4,7 @@ import edu.transaction.service.dto.LimitDTO;
 import edu.transaction.service.exception.LimitException;
 import edu.transaction.service.mapper.LimitMapper;
 import edu.transaction.service.model.Limit;
+import edu.transaction.service.model.enums.ExpenseCategory;
 import edu.transaction.service.repository.LimitRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.List;
+import java.util.Optional;
 
 
 @Slf4j
@@ -25,8 +27,14 @@ public class LimitService {
 
     @Transactional
     public List<LimitDTO> getAllLimits() {
-        log.info("LimitService | Получение списка всех лимитов");
+        log.info("LimitService | Retrieving the list of all limits");
         return limitMapper.toDTOList(limitRepo.findAll());
+    }
+
+    @Transactional
+    public List<LimitDTO> getAllLimitsByExpenseCategory(ExpenseCategory expenseCategory) {
+        log.info("LimitService | Retrieving the limit by expense category");
+        return limitMapper.toDTOList(limitRepo.findAllByExpenseCategory(expenseCategory));
     }
 
     @Transactional
@@ -44,7 +52,7 @@ public class LimitService {
                 .toList();
 
         if (!oldLimits.isEmpty()) {
-            throw new LimitException("Обновление лимита невозможно. Пожалуйста добавьте новый лимит.");
+            throw new LimitException("Unable to update the limit. Please add a new limit.");
         }
 
         Limit limit = Limit.builder()
@@ -54,7 +62,7 @@ public class LimitService {
                 .endDatetime(endDatetime)
                 .build();
 
-        log.info("LimitService | Сохранение лимита на категорию расходов:{}, лимит:{} USD, Дата и время:{}",
+        log.info("LimitService | Saving expense category limit: {}, limit: {} USD, datetime: {}",
                 limit.getExpenseCategory(), limit.getLimitSum(), limit.getStartDatetime());
 
         limitRepo.save(limit);

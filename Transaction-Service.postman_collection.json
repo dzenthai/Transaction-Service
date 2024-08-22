@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"accountFrom\": 2356323127,\r\n    \"accountTo\": 1234567891,\r\n    \"sum\": \"0.20\",\r\n    \"expenseCategory\": \"service\",\r\n    \"currency\": \"BTC\"\r\n}",
+					"raw": "{\r\n    \"accountFrom\": 2356323127,\r\n    \"accountTo\": 1234567891,\r\n    \"sum\": \"100\",\r\n    \"expenseCategory\": \"service\",\r\n    \"currency\": \"USD\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -60,7 +60,7 @@
 					]
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/exchange-rate/get?currencyPair=BTC/USD",
+					"raw": "http://localhost:8080/api/exchange-rate/get?currencyPair=EUR/USD",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -73,13 +73,13 @@
 					],
 					"query": [
 						{
-							"key": "currencyPair",
-							"value": "BTC/USD"
-						},
-						{
 							"key": "date",
 							"value": "",
 							"disabled": true
+						},
+						{
+							"key": "currencyPair",
+							"value": "EUR/USD"
 						}
 					]
 				}
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"limit\": \"700\",\r\n    \"expenseCategory\": \"service\",\r\n    \"datetime\": \"2024-08-13T19:35:18\"\r\n}\r\n",
+					"raw": "{\r\n    \"limit\": \"10000\",\r\n    \"expenseCategory\": \"service\",\r\n    \"datetime\": \"2024-08-22T19:35:18\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -118,9 +118,21 @@
 		},
 		{
 			"name": "Get all limits",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
 				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
 				"url": {
 					"raw": "http://localhost:8080/api/limits",
 					"protocol": "http",
@@ -131,6 +143,72 @@
 					"path": [
 						"api",
 						"limits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all limits by expense category service",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/limits/service",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"limits",
+						"service"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all limits by expense category product",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/limits/product",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"limits",
+						"product"
 					]
 				}
 			},

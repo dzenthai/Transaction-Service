@@ -14,22 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
-
 @RestController
 @RequestMapping("/api")
 @RequiredArgsConstructor
 @Tag(
-        name = "Контроллер обменного курса",
-        description = "Данный контроллер отвечает за получение актуальных курсов валют.")
+        name = "Exchange Rate Controller",
+        description = "This controller is responsible for retrieving current exchange rates."
+)
 public class ExchangeRateController {
 
     private final ExchangeRateService exchangeRateService;
 
     @Operation(
-            summary = "Получить актуальный курс валюты",
-            description = "Данный метод возвращает актуальный курс валют. В параметрах запроса нужно указать валютную пару.",
+            summary = "Get current exchange rate",
+            description = "This method returns the current exchange rate. " +
+                    "The currency pair should be specified in the request parameters.",
             parameters = {
-                    @Parameter(name = "currencyPair", description = "Пара валют, для которой нужно получить курс. Например USD/KZT"),
+                    @Parameter(name = "currencyPair", description = "The currency pair for which you need the rate. " +
+                            "For example, USD/KZT"),
             }
     )
     @GetMapping("exchange-rate/get")

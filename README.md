@@ -1,68 +1,74 @@
 # Transaction-Service
 
-## **Описание**
+## **Description**
 
-Данный микросервис предназначен для обработки транзакций, мониторинга расходов в различных валютах и контроля лимитов расходов.
-
----
-
-## **Ключевые особенности**
-
-- **Обработка транзакций**: Сохранение информации о расходных операциях в разных валютах (KZT, RUB, и др.).
-- **Контроль лимитов расходов**: Хранение и проверка месячных лимитов расходов в USD, с возможностью помечать транзакции, превышающие лимит.
-- **Получение курсов валют**: Интеграция с внешним API (TwelveData API) для получения курсов валют (KZT/USD, RUB/USD) и их сохранение в базе данных.
-- **Гибкая настройка лимитов**: Возможность установки новых лимитов расходов с учетом текущей даты.
+This microservice is designed for handling transactions, monitoring expenses in various currencies, and controlling
+expense limits.
 
 ---
 
-## **Технологии**
+## **Key Features**
 
-- **Spring Boot**: Основной фреймворк для разработки сервиса.
-- **MongoDB**: NoSQL база данных для хранения сущностей и курсов валют.
-- **Liquibase**: Инструмент для миграции базы данных.
-- **TwelveData API**: Внешний источник данных для получения курсов валют.
-- **Docker**: Контейнеризация сервиса для упрощения деплоя.
+- **Transaction Processing**: Storing information about expense operations in different currencies (USD, EUR, RUB,
+  etc.).
+- **Expense Limit Control**: Storing and verifying monthly expense limits in USD.
+- **Currency Exchange Rates**: Integration with an external API (TwelveData API) to fetch currency exchange rates (
+  KZT/USD, RUB/USD) and store them in the database.
+- **Flexible Limit Configuration**: Ability to set new expense limits considering the current date.
 
 ---
 
-## **Руководство по установке**
+## **Technologies**
 
-### **Предварительные требования**
+- **Spring Boot**: Primary framework for developing the service.
+- **PostgreSQL**: Main database for storing entities (transactions, limits).
+- **MongoDB**: NoSQL database for storing currency exchange rates.
+- **Liquibase**: Database migration tool.
+- **TwelveData API**: External data source for fetching currency exchange rates.
+- **Docker**: Containerization of the service to simplify deployment.
 
-Убедитесь, что Docker установлен на вашем компьютере.
+---
 
-### **Шаги для установки и запуска**
+## **Installation Guide**
 
-1. **Клонирование репозитория**
+### **Prerequisites**
+
+Ensure that Docker is installed on your computer.
+
+### **Installation and Startup Steps**
+
+1. **Clone the Repository**
    ```bash
    git clone https://github.com/dzenthai/Transaction-Service.git
    cd transaction-service
 
-2. **Сборка Docker образа**
-   Создайте Docker образ для вашего сервиса:
+2. **Build Docker Image**
+   Create a Docker image for your service:
    ```bash
    docker build -t transaction-service .
 
-3. **Запуск Docker Compose**
-   Запустите docker-compose.yml для деплоя всех необходимых сервисов:
+3. **Run Docker Compose**
+   Deploy all necessary services by running docker-compose.yml:
    ```bash
    docker-compose up
 
-4. **Доступ к приложению**
-   После запуска Docker контейнеров, доступ к приложению будет возможен по адресу http://localhost:8080.
+4. **Access the Application**
+   After starting the Docker containers, the application can be accessed at http://localhost:8080.
 
-5. **Инициализация базы данных**
-   Приложение автоматически создаст необходимые таблицы в базе данных при запуске.
-   При необходимости, можно вручную инициализировать базу данных.
+5. **Database Initialization**
+   The application will automatically create the necessary tables in the database upon startup.
 
-6. **Настройка свойств приложения**
-   После установки, настройте свойства приложения (например, application.properties или application.yml)
-   для указания параметров среды, таких как URL базы данных, токены и т.д.
+6. **Application Configuration**
+   After installation, configure the application properties (e.g., application.properties or application.yml)
+   to specify environment parameters such as database URL, tokens, etc.
 
 ---
 
-## **Дополнительная информация**
+## **Additional Information**
 
-- **Swagger**: Для просмотра и тестирования API используйте Swagger UI, доступный по адресу http://localhost:8080/swagger-ui.html.
-- **Postman Collection**: В проекте также доступен файл postman_collection.json, который можно использовать для тестирования API в Postman.
-- **Интеграция с внешними API**: Убедитесь, что сервис корректно интегрируется с внешними API, такими как TwelveData, для получения актуальных курсов валют.
+- **Swagger**: Use Swagger UI for viewing and testing the API, available at http://localhost:8080/swagger-ui.html.
+- **Postman Collection**: A postman_collection.json file is also available in the project for testing the API in
+  Postman.
+- **External API Integration**: Ensure the service integrates correctly with external APIs, such as TwelveData, to fetch
+  up-to-date currency exchange rates.
+

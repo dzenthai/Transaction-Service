@@ -53,21 +53,21 @@ public class LimitCheckService {
                 .map(t-> exchangeRateService.convertToUSD(transactionMapper.toDTO(t)))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        log.info("LimitCheckService | Проверка транзакции на превышение лимита");
+        log.info("LimitCheckService | Checking transaction for exceeding the monthly limit");
 
         transaction.setLimitExceeded(totalTransactionsAmountInUSD.add(transactionSumInUSD).compareTo(currentLimit.getLimitSum()) > 0);
     }
 
 
     private Limit createDefaultLimit(LocalDateTime transactionDateTime, ExpenseCategory expenseCategory) {
-        log.info("LimitCheckService | Установка лимита по умолчанию, 1000 USD");
+        log.info("LimitCheckService | Setting default monthly limit to 20,000 USD");
 
         LocalDateTime startOfMonth = transactionDateTime.withDayOfMonth(1);
 
         LocalDateTime endOfMonth = startOfMonth.plusMonths(1);
 
         return Limit.builder()
-                .limitSum(new BigDecimal(1000))
+                .limitSum(new BigDecimal(20000))
                 .startDatetime(startOfMonth)
                 .endDatetime(endOfMonth)
                 .expenseCategory(expenseCategory)

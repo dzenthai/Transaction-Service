@@ -21,21 +21,21 @@ public class ApplicationExceptionHandler {
     @ExceptionHandler(TransactionException.class)
     public ResponseEntity<Object> exceptionHandler(TransactionException ex) {
         ApplicationException exception = new ApplicationException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-        log.error("Transaction Exception | ошибка: {}, статус:{}", ex.getMessage(), exception.getStatus());
+        log.error("Transaction Exception | exception: {}, status:{}", ex.getMessage(), exception.getStatus());
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ApplicationException> exceptionHandler(RuntimeException ex) {
         ApplicationException exception = new ApplicationException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-        log.error("Generic exception | ошибка: {}, статус: {}", ex.getMessage(), exception.getStatus());
+        log.error("Runtime exception | exception: {}, status: {}", ex.getMessage(), exception.getStatus());
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ValidationException.class)
     public ResponseEntity<ApplicationException> exceptionHandler(ValidationException ex) {
         ApplicationException exception = new ApplicationException(ex.getMessage(), HttpStatus.BAD_REQUEST.value());
-        log.error("Validation exception | ошибка: {}, статус: {}", ex.getMessage(), exception.getStatus());
+        log.error("Validation exception | exception: {}, status: {}", ex.getMessage(), exception.getStatus());
         return new ResponseEntity<>(exception, HttpStatus.BAD_REQUEST);
     }
 

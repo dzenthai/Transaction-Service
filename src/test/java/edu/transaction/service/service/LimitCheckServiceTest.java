@@ -50,12 +50,12 @@ public class LimitCheckServiceTest {
                 .builder()
                 .datetime(LocalDateTime.now())
                 .expenseCategory(ExpenseCategory.service)
-                .sum(new BigDecimal("1200"))
+                .sum(new BigDecimal("12000"))
                 .build();
 
         Limit limit = Limit
                 .builder()
-                .limitSum(new BigDecimal("1000"))
+                .limitSum(new BigDecimal("10000"))
                 .expenseCategory(ExpenseCategory.service)
                 .startDatetime(YearMonth.from(transaction.getDatetime()).atDay(1).atStartOfDay())
                 .endDatetime(YearMonth.from(transaction.getDatetime()).atEndOfMonth().atTime(23, 59, 59))
@@ -66,7 +66,7 @@ public class LimitCheckServiceTest {
         when(transactionRepo.findAllByExpenseCategoryAndDatetimeBetween(any(), any(), any()))
                 .thenReturn(Collections.emptyList());
 
-        when(exchangeRateService.convertToUSD(any())).thenReturn(new BigDecimal("1200"));
+        when(exchangeRateService.convertToUSD(any())).thenReturn(new BigDecimal("12000"));
 
         limitCheckService.checkLimitExceeded(transaction);
 
