@@ -3,7 +3,6 @@ package edu.transaction.service.service;
 import edu.transaction.service.mapper.TransactionMapper;
 import edu.transaction.service.model.Limit;
 import edu.transaction.service.model.Transaction;
-import edu.transaction.service.model.enums.ExpenseCategory;
 import edu.transaction.service.repository.LimitRepo;
 import edu.transaction.service.repository.TransactionRepo;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +28,8 @@ public class LimitCheckService {
 
     private final TransactionMapper transactionMapper;
 
+    private final LimitService limitService;
+
     @Transactional
     public void checkLimitExceeded(Transaction transaction) {
         LocalDateTime transactionDateTime = transaction.getDatetime();
@@ -40,7 +41,7 @@ public class LimitCheckService {
                 .toList();
 
         Limit currentLimit = applicableLimits.isEmpty() ?
-                createDefaultLimit(transactionDateTime, transaction.getExpenseCategory()) :
+                limitService.createDefaultLimit(transactionDateTime, transaction.getExpenseCategory()) :
                 applicableLimits.getFirst();
 
         BigDecimal transactionSumInUSD = exchangeRateService.convertToUSD(transactionMapper.toDTO(transaction));
@@ -56,21 +57,5 @@ public class LimitCheckService {
         log.info("LimitCheckService | Checking transaction for exceeding the monthly limit");
 
         transaction.setLimitExceeded(totalTransactionsAmountInUSD.add(transactionSumInUSD).compareTo(currentLimit.getLimitSum()) > 0);
-    }
-
-
-    private Limit createDefaultLimit(LocalDateTime transactionDateTime, ExpenseCategory expenseCategory) {
-        log.info("LimitCheckService | Setting default monthly limit to 20,000 USD");
-
-        LocalDateTime startOfMonth = transactionDateTime.withDayOfMonth(1);
-
-        LocalDateTime endOfMonth = startOfMonth.plusMonths(1);
-
-        return Limit.builder()
-                .limitSum(new BigDecimal(20000))
-                .startDatetime(startOfMonth)
-                .endDatetime(endOfMonth)
-                .expenseCategory(expenseCategory)
-                .build();
     }
 }

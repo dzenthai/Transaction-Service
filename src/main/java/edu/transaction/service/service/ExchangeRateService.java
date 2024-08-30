@@ -74,7 +74,7 @@ public class ExchangeRateService {
             return transactionDTO.sum();
         }
         BigDecimal exchangeRate = getExchangeRate(transactionDTO.currency().name() + "/USD", LocalDate.now());
-        log.info("ExchangeRateService | Converting {} to USD", transactionDTO.currency().name());
+        log.debug("ExchangeRateService | Converting {} to USD", transactionDTO.currency().name());
         return transactionDTO.sum().multiply(exchangeRate);
     }
 
@@ -90,12 +90,12 @@ public class ExchangeRateService {
                     .join();
 
             String responseBody = response.getResponseBody();
-            log.info("ExchangeRateService | Full response from Twelvedata API: {}", responseBody);
+            log.debug("ExchangeRateService | Full response from Twelvedata API: {}", responseBody);
 
             BigDecimal closePrice = parseClosePrice(responseBody);
 
             if (closePrice == null) {
-                log.info("ExchangeRateService | Closing data for {} is unavailable, attempting to retrieve the previous closing rate.", date);
+                log.debug("ExchangeRateService | Closing data for {} is unavailable, attempting to retrieve the previous closing rate.", date);
                 url = String.format(
                         "https://api.twelvedata.com/time_series?symbol=%s&interval=1day&start_date=%s&apikey=%s&format=JSON&previous_close=true",
                         currencyPair, date, apiKey);
@@ -106,7 +106,7 @@ public class ExchangeRateService {
                         .join();
 
                 responseBody = response.getResponseBody();
-                log.info("ExchangeRateService | Full response from Twelvedata API with previous_close=true: {}", responseBody);
+                log.debug("ExchangeRateService | Full response from Twelvedata API with previous_close=true: {}", responseBody);
 
                 closePrice = parseClosePrice(responseBody);
             }
@@ -121,6 +121,7 @@ public class ExchangeRateService {
 
     private BigDecimal parseClosePrice(String responseBody) {
         try {
+            log.debug("ExchangeRateService | Parsing close price, response body:{}", responseBody);
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(responseBody);
 

@@ -12,13 +12,10 @@ import java.util.List;
 @Configuration
 public class SwaggerConfig {
 
-    @Value("${api.url}")
-    private String apiUrl;
-
     @Bean
     public OpenAPI api() {
         return new OpenAPI()
-                .servers(List.of(new Server().url(apiUrl)))
+                .servers(List.of(new Server().url("http://localhost:8080/")))
                 .info(new Info().title("Transaction Service API").version("1.0"));
     }
 }

@@ -1,11 +1,11 @@
-FROM openjdk:22-jdk-alpine
+FROM gradle:8.8-jdk22 AS builder
+WORKDIR /opt/app
+COPY build.gradle settings.gradle ./
+COPY src ./src
+RUN gradle build --no-daemon -x test
 
-WORKDIR /app
-
-COPY . .
-
-RUN ./mvnw clean package -DskipTests
-
+FROM eclipse-temurin:22-jre-jammy
+WORKDIR /opt/app
 EXPOSE 8080
-
-CMD ["java", "-jar", "/app/target/Transaction-Service.jar"]
+COPY --from=builder /opt/app/build/libs/*.jar /opt/app/app.jar
+ENTRYPOINT ["java", "-jar", "/opt/app/app.jar"]

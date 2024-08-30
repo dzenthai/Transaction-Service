@@ -11,9 +11,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.time.YearMonth;
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -29,12 +30,6 @@ public class LimitService {
     public List<LimitDTO> getAllLimits() {
         log.info("LimitService | Retrieving the list of all limits");
         return limitMapper.toDTOList(limitRepo.findAll());
-    }
-
-    @Transactional
-    public List<LimitDTO> getAllLimitsByExpenseCategory(ExpenseCategory expenseCategory) {
-        log.info("LimitService | Retrieving the limit by expense category");
-        return limitMapper.toDTOList(limitRepo.findAllByExpenseCategory(expenseCategory));
     }
 
     @Transactional
@@ -66,5 +61,20 @@ public class LimitService {
                 limit.getExpenseCategory(), limit.getLimitSum(), limit.getStartDatetime());
 
         limitRepo.save(limit);
+    }
+
+    public Limit createDefaultLimit(LocalDateTime transactionDateTime, ExpenseCategory expenseCategory) {
+        log.debug("LimitCheckService | Setting default monthly limit to 20,000 USD");
+
+        LocalDateTime startOfMonth = transactionDateTime.withDayOfMonth(1);
+
+        LocalDateTime endOfMonth = startOfMonth.plusMonths(1);
+
+        return Limit.builder()
+                .limitSum(new BigDecimal(20000))
+                .startDatetime(startOfMonth)
+                .endDatetime(endOfMonth)
+                .expenseCategory(expenseCategory)
+                .build();
     }
 }

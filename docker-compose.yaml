@@ -1,26 +1,36 @@
-version: '3.8'
-
 services:
-  transaction-service:
-    build: .
-    ports:
-      - "8080:8080"
+  postgres:
+    image: postgres:latest
+    restart: always
     environment:
-      DB_URL: mongodb://mongo:27017/exchange_rates
-      DB_USERNAME: user
-      DB_PASSWORD: password
-      MONGO_URL: mongodb://mongo:27017/exchange_rates
-      API_KEY: your-twelvedata-api-key
-      ADDRESS: http://localhost:8080
-    depends_on:
-      - mongo
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=transactions_db
+    ports:
+      - 5433:5432
 
   mongo:
-    image: mongo:5.0
+    image: mongo:latest
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=user
+      - MONGO_INITDB_ROOT_PASSWORD=pass
+      - MONGO_INITDB_DATABASE=transactions_db
     ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
+      - 27018:27017
 
-volumes:
-  mongo_data:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/transactions_db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_DATA_MONGODB_URI: mongodb://user:pass@mongo:27017/transactions_db?authSource=admin
+      API_KEY: your_api_key_here
+    depends_on:
+      - postgres
+      - mongo

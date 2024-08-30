@@ -1,7 +1,6 @@
 package edu.transaction.service.controller;
 
 import edu.transaction.service.dto.LimitDTO;
-import edu.transaction.service.model.enums.ExpenseCategory;
 import edu.transaction.service.service.LimitService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -50,26 +49,6 @@ public class LimitController {
     @GetMapping("limits")
     public ResponseEntity<List<LimitDTO>> getAllLimits() {
         List<LimitDTO> limits = limitService.getAllLimits();
-        return ResponseEntity.ok(limits);
-    }
-
-    @Operation(
-            summary = "View the list of service limits",
-            description = "This method returns the list of service limits."
-    )
-    @GetMapping("limits/service")
-    public ResponseEntity<List<LimitDTO>> getAllLimitsByExpenseCategoryService() {
-        List<LimitDTO> limits = limitService.getAllLimitsByExpenseCategory(ExpenseCategory.service);
-        return ResponseEntity.ok(limits);
-    }
-
-    @Operation(
-            summary = "View the list of product limits",
-            description = "This method returns the list of product limits."
-    )
-    @GetMapping("limits/product")
-    public ResponseEntity<List<LimitDTO>> getAllLimitsByExpenseCategoryProduct() {
-        List<LimitDTO> limits = limitService.getAllLimitsByExpenseCategory(ExpenseCategory.product);
         return ResponseEntity.ok(limits);
     }
 }
