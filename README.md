@@ -46,7 +46,6 @@ Ensure that Docker is installed on your computer.
    git clone https://github.com/dzenthai/Transaction-Service.git
    cd transaction-service
 
-
 2. **Setting Up Environment Variables**
 
 Before you start setting up environment variables, you should register on the official Twelve Data website to obtain an
@@ -77,7 +76,6 @@ Congratulations, you're ready to move on to the next step!
    Deploy all necessary services by running docker-compose.yml:
    ```bash
    docker-compose up
-
 
 4. **Access the Application**
    After starting the Docker containers, the application can be accessed at http://localhost:8080.
