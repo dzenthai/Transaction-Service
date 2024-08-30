@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"accountFrom\": 2356323127,\r\n    \"accountTo\": 1234567891,\r\n    \"sum\": \"100\",\r\n    \"expenseCategory\": \"service\",\r\n    \"currency\": \"USD\"\r\n}",
+					"raw": "{\r\n    \"accountFrom\": 1234567891,\r\n    \"accountTo\": 1234567890,\r\n    \"sum\": \"1400\",\r\n    \"expenseCategory\": \"service\",\r\n    \"currency\": \"EUR\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -93,7 +93,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"limit\": \"10000\",\r\n    \"expenseCategory\": \"service\",\r\n    \"datetime\": \"2024-08-22T19:35:18\"\r\n}\r\n",
+					"raw": "{\r\n    \"limit\": \"2500\",\r\n    \"expenseCategory\": \"service\",\r\n    \"datetime\": \"2024-08-22T19:35:18\"\r\n}\r\n",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -143,72 +143,6 @@
 					"path": [
 						"api",
 						"limits"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all limits by expense category service",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/limits/service",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"limits",
-						"service"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get all limits by expense category product",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/api/limits/product",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"api",
-						"limits",
-						"product"
 					]
 				}
 			},
