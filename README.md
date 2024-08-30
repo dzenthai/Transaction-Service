@@ -5,7 +5,6 @@
 This microservice is designed for handling transactions, monitoring expenses in various currencies, and controlling
 expense limits.
 
-
 ---
 
 ## **Key Features**
@@ -16,7 +15,6 @@ expense limits.
 - **Currency Exchange Rates**: Integration with an external API (TwelveData API) to fetch currency exchange rates (
   EUR/USD, RUB/USD) and store them in the database.
 - **Flexible Limit Configuration**: Ability to set new expense limits considering the current date.
-
 
 ---
 
@@ -29,7 +27,6 @@ expense limits.
 - **TwelveData API**: External data source for fetching currency exchange rates.
 - **Docker**: Containerization of the service to simplify deployment.
 
-
 ---
 
 ## **Installation Guide**
@@ -39,7 +36,6 @@ expense limits.
 Ensure that Docker is installed on your computer.
 
 ### **Installation and Startup Steps**
-
 
 1. **Clone the Repository**
    ```bash
@@ -71,7 +67,6 @@ API key, you can proceed to set up environment variables.
 
 Congratulations, you're ready to move on to the next step!
 
-
 3. **Run Docker Compose**
    Deploy all necessary services by running docker-compose.yml:
    ```bash
@@ -80,15 +75,11 @@ Congratulations, you're ready to move on to the next step!
 4. **Access the Application**
    After starting the Docker containers, the application can be accessed at http://localhost:8080.
 
-
 5. **Database Initialization**
    The application will automatically create the necessary tables in the database upon startup.
 
-
-6. **Application Configuration**
-   After installation, configure the application properties (e.g., application.properties or application.yml)
-   to specify environment parameters such as database URL, tokens, etc.
-
+6. **Verify Application Functionality**
+   After completing all the above steps, make sure that the application is working correctly!
 
 ---
 
