@@ -30,7 +30,7 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: pass
       SPRING_DATA_MONGODB_URI: mongodb://user:pass@mongo:27017/transactions_db?authSource=admin
-      API_KEY: your_api_key_here
+      TWELVEDATA_APIKEY: ${API_KEY}
     depends_on:
       - postgres
       - mongo

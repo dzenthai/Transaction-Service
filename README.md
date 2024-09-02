@@ -61,12 +61,6 @@ API key, you can proceed to set up environment variables.
 1. Create a `.env` file in the root directory of your project.
 2. Inside the `.env` file, add the value for `API_KEY`, which should look something like: `API_KEY=your_token_here`.
 
-**Next Step**
-
-1. Update your `docker-compose.yaml` file by replacing `API_KEY: your_api_key_here` with the actual key you obtained.
-
-Congratulations, you're ready to move on to the next step!
-
 3. **Run Docker Compose**
    Deploy all necessary services by running docker-compose.yml:
    ```bash
